@@ -16,5 +16,7 @@ fn main() {
         println!("the fbnq index {index} is {result}")
     }
 
-    young::christmas_loop()
+    young::christmas_loop();
+
+    young::owner_ship()
 }

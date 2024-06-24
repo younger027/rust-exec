@@ -60,6 +60,88 @@ pub fn christmas_loop() {
     
 }
 
+pub fn owner_ship() {
+    // let mut s = String::from("hello");
+    // s.push_str(", world!");
+    // println!("{}", s)
+
+    // let s = String::from("hello");
+
+    // check_use_space_for_string(s.clone());
+    // println!("{}", s);
+
+    // let x =  5;
+    // check_use_space_for_i32(x);
+    // println!("{}", x);
+
+    //reference value, do not have ownership
+    // let s1 = String::from("hello");
+    // let len = caculcate_length(&s1);
+    // println!("the length of {} is {}", s1, len);
+
+    // let mut s = String::from("hello");
+    // change(&mut s); //notice this place must add mut
+    // println!("the s is {}", s);
+
+    let mut s = String::from("hello");
+
+    //在任意给定时间，要么 只能有一个可变引用，要么 只能有多个不可变引用。
+    //can not run,just have one reference in use space
+    // let r1 = &mut s;
+    // let r2 = &mut s;
+    // println!("{}, {}", r1, r2);
+
+    //case 2: this worked
+    let mut s = String::from("hello");
+
+    {
+        let r1 = &mut s;
+    } // r1 在这里离开了作用域，所以我们完全可以创建一个新的引用
+
+    let r2 = &mut s;
+
+    //case 3: when e3 init, r1 and r2 not use after code
+    let mut s = String::from("hello");
+
+    let r1 = &s; // 没问题
+    let r2 = &s; // 没问题
+    println!("{} and {}", r1, r2);
+    // 此位置之后 r1 和 r2 不再使用
+
+    let r3 = &mut s; // 没问题
+    println!("{}", r3);
+
+
+
+}
+
+fn caculcate_length(s: &String) -> usize {
+    s.len()
+}
+
+fn change(s: &mut String) {
+    s.push_str(", world!");
+}
+fn check_use_space_for_string(s : String) {
+    println!("{}", s);
+}
+
+fn check_use_space_for_i32(s : i32) {
+    println!("{}", s);
+}
+
+//悬挂指针，返回引用的话， s出了作用域，堆上的内存就会被销毁，变为悬挂指针
+fn return_string() -> String {
+    let s = String::from("hello");
+    s //return string not return reference of string
+}
+
+//错误示例
+fn return_string_reference() -> &String {
+    let s = String::from("hello");
+    &s //return string not return reference of string
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
